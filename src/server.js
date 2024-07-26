@@ -4,12 +4,9 @@
 import { CLOSE_DB, CONNECT_DB, GET_DB } from '~/config/mongodb';
 import express from 'express';
 import AsyncExitHook from 'async-exit-hook';
-
+import { env } from './config/environment';
 const START_SERVER = () => {
   const app = express();
-
-  const hostname = 'localhost';
-  const port = 8017;
 
   app.get('/', async (req, res) => {
     try {
@@ -18,20 +15,18 @@ const START_SERVER = () => {
       const collections = await db.listCollections().toArray();
       console.log(collections);
 
-      res.send(
-        '<h1>Hello World!</h1><hr><pre>' +
-          JSON.stringify(collections, null, 2) +
-          '</pre>'
-      );
+      res.send('<h1>Hello World!</h1><hr>');
     } catch (error) {
       console.error('Error fetching collections:', error);
       res.status(500).send('Internal Server Error');
     }
   });
 
-  app.listen(port, hostname, () => {
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`Server is running at http://${hostname}:${port}/`);
+    console.log(
+      `Hi ${env.AUTHOR}. Server is running at http://${env.APP_HOST}:${env.APP_PORT}/`
+    );
   });
 
   //Thực hiện các tác vụ cleanup trước khi dừng server

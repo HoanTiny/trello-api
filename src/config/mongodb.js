@@ -1,14 +1,11 @@
 /* eslint-disable semi */
-const MONGODB_URI =
-  'mongodb+srv://hoantiny01:jRuX1xRfJdAFAP2P@cluster0.qujrqev.mongodb.net/?retryWrites=true&w=majority';
-
-const DB_NAME = 'trello-hoantiny-be';
+import { env } from './environment';
 
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 let trelloDatabaseInstance = null;
 
-const mongoClientInstance = new MongoClient(MONGODB_URI, {
+const mongoClientInstance = new MongoClient(env.MONGODB_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -19,7 +16,7 @@ const mongoClientInstance = new MongoClient(MONGODB_URI, {
 export const CONNECT_DB = async () => {
   await mongoClientInstance.connect();
 
-  trelloDatabaseInstance = mongoClientInstance.db(DB_NAME);
+  trelloDatabaseInstance = mongoClientInstance.db(env.DATABASE_NAME);
 };
 
 export const GET_DB = () => {
