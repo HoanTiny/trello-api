@@ -5,6 +5,7 @@ import { CLOSE_DB, CONNECT_DB, GET_DB } from '~/config/mongodb';
 import express from 'express';
 import AsyncExitHook from 'async-exit-hook';
 import { env } from './config/environment';
+import { APIs_v1 } from './routes/v1';
 const START_SERVER = () => {
   const app = express();
 
@@ -21,6 +22,7 @@ const START_SERVER = () => {
       res.status(500).send('Internal Server Error');
     }
   });
+  app.use('/v1', APIs_v1);
 
   app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
