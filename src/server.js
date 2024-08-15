@@ -9,6 +9,9 @@ import { APIs_v1 } from './routes/v1';
 const START_SERVER = () => {
   const app = express();
 
+  // Enable req.body json data
+  app.use(express.json());
+
   app.get('/', async (req, res) => {
     try {
       const db = GET_DB();
@@ -22,6 +25,8 @@ const START_SERVER = () => {
       res.status(500).send('Internal Server Error');
     }
   });
+
+  //Use APIs V1
   app.use('/v1', APIs_v1);
 
   app.listen(env.APP_PORT, env.APP_HOST, () => {
